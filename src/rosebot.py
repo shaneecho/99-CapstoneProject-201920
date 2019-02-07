@@ -91,7 +91,7 @@ class DriveSystem(object):
     #     self.right_motor.turn_on(right_wheel_speed)
 
     def left(self, left_wheel_speed, right_wheel_speed):
-        self.left_motor.turn_on(left_wheel_speed)
+        self.left_motor.turn_on(-left_wheel_speed)
         self.right_motor.turn_on(right_wheel_speed)
         # print(-left_wheel_speed, right_wheel_speed)
 

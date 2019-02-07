@@ -26,11 +26,11 @@ class Receiver(object):
 
     def left(self, left_wheel_speed, right_wheel_speed):
         print("Turn Left", left_wheel_speed, right_wheel_speed)
-        self.robot.drive_system.back(int(left_wheel_speed), int(right_wheel_speed))
+        self.robot.drive_system.left(int(left_wheel_speed), int(right_wheel_speed))
 
     def right(self, left_wheel_speed, right_wheel_speed):
         print("Turn Right", left_wheel_speed, right_wheel_speed)
-        self.robot.drive_system.back(int(left_wheel_speed), int(right_wheel_speed))
+        self.robot.drive_system.right(int(left_wheel_speed), int(right_wheel_speed))
 
 #####################################################
 
