@@ -86,6 +86,19 @@ class DriveSystem(object):
         self.left_motor.turn_on(-left_wheel_speed)
         self.right_motor.turn_on(-right_wheel_speed)
 
+    # def left(self, left_wheel_speed, right_wheel_speed):
+    #     self.left_motor.turn_on(-left_wheel_speed)
+    #     self.right_motor.turn_on(right_wheel_speed)
+
+    def left(self, left_wheel_speed, right_wheel_speed):
+        self.left_motor.turn_on(left_wheel_speed)
+        self.right_motor.turn_on(right_wheel_speed)
+        # print(-left_wheel_speed, right_wheel_speed)
+
+    def right(self, left_wheel_speed, right_wheel_speed):
+        self.left_motor.turn_on(left_wheel_speed)
+        self.right_motor.turn_on(-right_wheel_speed)
+
     def go_straight_for_seconds(self, seconds, speed):
         """
         Makes the robot go straight (forward if speed > 0, else backward)
