@@ -23,3 +23,9 @@ class Receiver(object):
     def backward(self, left_wheel_speed, right_wheel_speed):
         print("Backward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.back(int(left_wheel_speed), int(right_wheel_speed))
+
+#####################################################
+
+    def raise_arm(self):
+        print("Raise")
+        self.robot.arm_and_claw.raise_arm()
