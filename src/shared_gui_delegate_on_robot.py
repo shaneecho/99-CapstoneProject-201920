@@ -12,6 +12,14 @@ class Receiver(object):
         """ :type robot: rosebot.Rosebot"""
         self.robot = robot
 
-    def forward(self,left_wheel_speed, right_wheel_speed):
+    def forward(self, left_wheel_speed, right_wheel_speed):
         print("Got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
+
+    def stop(self):
+        print("Stop")
+        self.robot.drive_system.stop()
+
+    def backward(self, left_wheel_speed, right_wheel_speed):
+        print("Backward", left_wheel_speed, right_wheel_speed)
+        self.robot.drive_system.back(int(left_wheel_speed), int(right_wheel_speed))
