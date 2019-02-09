@@ -81,3 +81,42 @@ def grid_frames(teleop_frame, arm_frame, control_frame):
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
 main()
+
+
+def go_straight_for_seconds(self, seconds, speed):
+    """
+    Makes the robot go straight (forward if speed > 0, else backward)
+    at the given speed for the given number of seconds.
+    """
+    self.go(speed, speed)
+    time.sleep(seconds)
+    self.stop()
+
+
+def go_straight_for_inches_using_time(self, inches, speed):
+    """
+    Makes the robot go straight at the given speed
+    for the given number of inches, using the approximate
+    conversion factor of 10.0 inches per second at 100 (full) speed.
+    """
+    self.go(speed, speed)
+    time.sleep(inches / 10)
+    self.stop()
+
+
+def go_straight_for_inches_using_encoder(self, inches, speed):
+    """
+    Makes the robot go straight (forward if speed > 0, else backward)
+    at the given speed for the given number of inches,
+    using the encoder (degrees traveled sensor) built into the motors.
+    """
+    self.right_motor.reset_position()
+    self.left_motor.reset_position()
+    inches_per_degree = self.left_motor.WheelCircumference / 360
+    degrees_to_move = inches // inches_per_degree
+    self.go(speed, speed)
+    while True:
+        self.left_motor.get_position()
+        if abs(self.left_motor.get_position()) >= degrees_to_move:
+            self.stop()
+            break
