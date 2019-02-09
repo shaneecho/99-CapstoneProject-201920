@@ -38,6 +38,10 @@ class Receiver(object):
         print("Raise")
         self.robot.arm_and_claw.raise_arm()
 
+    def lower_arm(self):
+        print("Lower")
+        self.robot.arm_and_claw.lower_arm()
+
     def calibrate_arm(self):
         print("Calibrate")
         self.robot.arm_and_claw.calibrate_arm()
