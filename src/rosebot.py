@@ -86,10 +86,6 @@ class DriveSystem(object):
         self.left_motor.turn_on(-left_wheel_speed)
         self.right_motor.turn_on(-right_wheel_speed)
 
-    # def left(self, left_wheel_speed, right_wheel_speed):
-    #     self.left_motor.turn_on(-left_wheel_speed)
-    #     self.right_motor.turn_on(right_wheel_speed)
-
     def left(self, left_wheel_speed, right_wheel_speed):
         self.left_motor.turn_on(-left_wheel_speed)
         self.right_motor.turn_on(right_wheel_speed)
@@ -220,13 +216,14 @@ class ArmAndClaw(object):
                 break
 
     def calibrate_arm(self):
-       self.raise_arm()
-       self.motor.turn_on(-100)
-       while True:
-           if abs(self.motor.get_position())>= 14.2*360:
-             self.motor.turn_off()
-             self.motor.reset_position()
-             break
+        self.raise_arm()
+        self.motor.reset_position()
+        self.motor.turn_on(-100)
+        while True:
+            if abs(self.motor.get_position()) >= 14.2 * 360:
+                self.motor.turn_off()
+                self.motor.reset_position()
+                break
 
 
 
