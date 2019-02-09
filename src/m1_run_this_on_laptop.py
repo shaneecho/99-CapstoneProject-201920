@@ -70,7 +70,15 @@ def grid_frames(teleop_frame, arm_frame, control_frame):
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
 
-
+    def lower_arm(self):
+        a=self.motor.get_position()
+        self.motor.reset_position()
+        self.motor.turn_on(-100)
+        while True:
+            if abs(self.motor.get_position()+a)>=14.2*360:
+                self.motor.turn_off()
+                self.motor.reset_position()
+                break
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
