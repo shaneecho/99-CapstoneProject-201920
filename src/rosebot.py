@@ -100,6 +100,9 @@ class DriveSystem(object):
         Makes the robot go straight (forward if speed > 0, else backward)
         at the given speed for the given number of seconds.
         """
+        self.go(speed, speed)
+        time.sleep(seconds)
+        self.stop()
 
     def go_straight_for_inches_using_time(self, inches, speed):
         """
@@ -108,6 +111,9 @@ class DriveSystem(object):
         conversion factor of 10.0 inches per second at 100 (full) speed.
         """
 
+        self.go(speed, speed)
+        time.sleep(inches / 10)
+        self.stop()
 
     def go_straight_for_inches_using_encoder(self, inches, speed):
         """
@@ -115,6 +121,17 @@ class DriveSystem(object):
         at the given speed for the given number of inches,
         using the encoder (degrees traveled sensor) built into the motors.
         """
+
+        self.right_motor.reset_position()
+        self.left_motor.reset_position()
+        inches_per_degree = self.left_motor.WheelCircumference / 360
+        degrees_to_move = inches // inches_per_degree
+        self.go(speed, speed)
+        while True:
+            self.left_motor.get_position()
+            if abs(self.left_motor.get_position()) >= degrees_to_move:
+                self.stop()
+                break
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
@@ -207,6 +224,7 @@ class ArmAndClaw(object):
         """
         self.touch_sensor = touch_sensor
         self.motor = Motor('A', motor_type='medium')
+        self.true_position = 0
 
     def raise_arm(self):
         """ Raises the Arm until its touch sensor is pressed. """
@@ -224,6 +242,7 @@ class ArmAndClaw(object):
             if abs(self.motor.get_position()) >= 14.2 * 360:
                 self.motor.turn_off()
                 self.motor.reset_position()
+                self.true_position = 0
                 break
 
 
@@ -232,6 +251,18 @@ class ArmAndClaw(object):
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
         """
+        if self.true_position > desired_arm_position:
+            self.motor.turn_on(-100)
+        elif self.true_position < desired_arm_position:
+            self.motor.turn_on(100)
+        else:
+            self.motor.turn_off()
+        while True:
+            if abs(self.motor.get_position() - self.true_position) <= 0:
+                self.true_position = desired_arm_position
+                self.motor.reset_position()
+                self.motor.turn_off()
+                break
 
     def lower_arm(self):
         """
@@ -239,9 +270,13 @@ class ArmAndClaw(object):
         The robot must have previously calibrated its Arm.
         """
         self.motor.turn_on(-100)
-        while abs(self.motor.get_position()) > 0:
-            pass
-        self.motor.turn_off()
+        # while abs(self.motor.get_position()) > 0:
+        #     pass
+        while True:
+            if abs(self.motor.get_position()) == 0:
+                self.motor.turn_off()
+                self.motor.reset_position()
+                break
 
 ###############################################################################
 #    SensorSystem
