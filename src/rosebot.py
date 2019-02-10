@@ -33,6 +33,7 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.drive_system = DriveSystem(self.sensor_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
+        self.sound_system = SoundSystem(Beeper, ToneMaker, SpeechMaker, SongMaker, self.sensor_system.touch_sensor)
 
 
 ###############################################################################
@@ -312,17 +313,31 @@ class SoundSystem(object):
     Has all the kinds of "noise makers" available to the Snatch3r robot.
     Use this object to make   ** any **   sounds.
     """
-    def __init__(self, beeper, tone_maker, speech_maker, song_maker):
+    def __init__(self, beeper, tone_maker, speech_maker, song_maker, touch_sensor):
         self.beeper = beeper
         self.tone_maker = tone_maker
         self.speech_maker = speech_maker
         self.song_maker = song_maker
+        self.touch_sensor = touch_sensor
 
     def tones_until_touch_sensor_is_pressed(self):
         """
         Plays an increasing sequence of short tones,
         stopping when the touch sensor is pressed.
         """
+        tones = 200
+        Tone = ToneMaker()
+        while True:
+            Tone.tone(tones, 100)
+            if self.touch_sensor.is_pressed():
+                break
+            else:
+                tones = tones + 10
+
+    def beep_for_given_time(self, times):
+        Bi = Beeper()
+        for k in range(times):
+            Bi.beep().wait()
 
 
 ###############################################################################

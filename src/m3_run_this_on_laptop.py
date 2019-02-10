@@ -6,7 +6,7 @@
     and Hanrui Chen.
   Winter term, 2018-2019.
 """
- 
+
 import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk

@@ -17,8 +17,9 @@ def main():
       1. Makes the EV3 robot to various things.
       2. Communicates via MQTT with the GUI code that runs on the LAPTOP.
     """
-    real_things()
-
+    # real_things()
+    # tone_test()
+    beeper_test()
 
 def real_things():
     robot = rosebot.RoseBot()
@@ -28,6 +29,14 @@ def real_things():
 
     while True:
         time.sleep(0.01)
+
+def tone_test():
+    robot = rosebot.RoseBot()
+    robot.sound_system.tones_until_touch_sensor_is_pressed()
+
+def beeper_test():
+    robot = rosebot.RoseBot()
+    robot.sound_system.beep_for_given_time(10)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
