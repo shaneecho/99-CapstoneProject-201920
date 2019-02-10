@@ -18,8 +18,8 @@ def main():
     """
     #real_thing()
     #run_test_go_stright_for_seconds()
-    run_test_go_stright_for_inches_using_time()
-    #run_test_go_stright_for_inches_using_encoder()
+    #run_test_go_stright_for_inches_using_time()
+    run_test_go_stright_for_inches_using_encoder()
 
 
 def real_thing():
@@ -40,7 +40,7 @@ def run_test_go_stright_for_inches_using_time():
 
 def run_test_go_stright_for_inches_using_encoder():
     robot=rosebot.RoseBot()
-    robot.drive_system.go_straight_for_inches_using_encoder()
+    robot.drive_system.go_straight_for_inches_using_encoder(40,50)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
