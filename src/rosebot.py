@@ -197,7 +197,6 @@ class ArmAndClaw(object):
     #   It takes   14.2 revolutions    of the ArmAndClaw's motor
     #     to go from all the way UP to all the way DOWN.
     # -------------------------------------------------------------------------
-
     def __init__(self, touch_sensor):
         """
         Stores the given touch sensor for stopping the Arm in its UP position.
@@ -206,6 +205,8 @@ class ArmAndClaw(object):
         """
         self.touch_sensor = touch_sensor
         self.motor = Motor('A', motor_type='medium')
+        self.trueposition = 0
+        self.calibrate_arm()
 
     def raise_arm(self):
         """ Raises the Arm until its touch sensor is pressed. """
@@ -223,6 +224,7 @@ class ArmAndClaw(object):
             if abs(self.motor.get_position()) >= 14.2 * 360:
                 self.motor.turn_off()
                 self.motor.reset_position()
+                self.trueposition = 0
                 break
 
 
@@ -231,16 +233,25 @@ class ArmAndClaw(object):
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
         """
+        self.motor.reset_position()
+        if self.trueposition<desired_arm_position:
+            self.motor.turn_on(100)
+        else:
+            self.motor.turn_on(-100)
+        while True:
+            if abs(self.motor.get_position()) >= abs(desired_arm_position-self.trueposition):
+                self.motor.turn_off()
+                self.motor.reset_position()
+                break
+
+        self.trueposition = desired_arm_position
 
     def lower_arm(self):
         """
         Lowers the Arm until it is all the way down, i.e., position 0.
         The robot must have previously calibrated its Arm.
         """
-        self.motor.turn_on(-100)
-        while abs(self.motor.get_position()) > 0:
-            pass
-        self.motor.turn_off()
+        self.move_arm_to_position(0)
 
 ###############################################################################
 #    SensorSystem
