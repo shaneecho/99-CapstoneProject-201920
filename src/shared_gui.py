@@ -35,17 +35,25 @@ def get_teleoperation_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="Teleoperation")
     left_speed_label = ttk.Label(frame, text="Left wheel speed (0 to 100)")
     right_speed_label = ttk.Label(frame, text="Right wheel speed (0 to 100)")
+    time_label = ttk.Label(frame, text="Time for running")
+    distance_label = ttk.Label(frame, text="Distance for running")
 
     left_speed_entry = ttk.Entry(frame, width=8)
     left_speed_entry.insert(0, "100")
     right_speed_entry = ttk.Entry(frame, width=8, justify=tkinter.RIGHT)
     right_speed_entry.insert(0, "100")
+    time_entry = ttk.Entry(frame, width=8)
+    distance_entry = ttk.Entry(frame, width=8)
+
 
     forward_button = ttk.Button(frame, text="Forward")
     backward_button = ttk.Button(frame, text="Backward")
     left_button = ttk.Button(frame, text="Left")
     right_button = ttk.Button(frame, text="Right")
     stop_button = ttk.Button(frame, text="Stop")
+    GSFS_button = ttk.Button(frame, text="Go straight for seconds")
+    GSFIUT_button = ttk.Button(frame, text="Go straight for inches using time")
+    GSFIUE_button = ttk.Button(frame, text="Go straight for inches using encoder")
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
@@ -60,6 +68,15 @@ def get_teleoperation_frame(window, mqtt_sender):
     right_button.grid(row=4, column=2)
     backward_button.grid(row=5, column=1)
 
+    time_label.grid(row=6, column=0)
+    distance_label.grid(row=6, column=2)
+    time_entry.grid(row=7, column=0)
+    distance_entry.grid(row=7, column=2)
+
+    GSFS_button.grid(row=6, column=1)
+    GSFIUT_button.grid(row=7, column=1)
+    GSFIUE_button.grid(row=8, column=1)
+
     # Set the button callbacks:
     forward_button["command"] = lambda: handle_forward(
         left_speed_entry, right_speed_entry, mqtt_sender)
@@ -70,7 +87,9 @@ def get_teleoperation_frame(window, mqtt_sender):
     right_button["command"] = lambda: handle_right(
         left_speed_entry, right_speed_entry, mqtt_sender)
     stop_button["command"] = lambda: handle_stop(mqtt_sender)
-
+    GSFS_button["command"] = lambda : handle_go_straight_for_second(time_entry, right_speed_entry, mqtt_sender)
+    GSFIUT_button["command"] = lambda: handle_go_straight_for_inches_using_time(distance_entry, right_speed_entry, mqtt_sender)
+    GSFIUE_button["command"] = lambda: handle_go_straight_for_inches_using_encoder(distance_entry, right_speed_entry, mqtt_sender)
     return frame
 
 
@@ -115,7 +134,6 @@ def get_arm_frame(window, mqtt_sender):
     calibrate_arm_button["command"] = lambda: handle_calibrate_arm(mqtt_sender)
     move_arm_button["command"] = lambda: handle_move_arm_to_position(
         position_entry, mqtt_sender)
-
     return frame
 
 
@@ -213,6 +231,37 @@ def handle_stop(mqtt_sender):
 
     print("stop")
     mqtt_sender.send_message("stop")
+
+def handle_go_straight_for_second(time_entry_box,speed_entry_box,mqtt_sender):
+    """
+    Tell the robot to go straight for specific seconds using given speed
+    :param mqtt_sender:
+    :return:
+    """
+    print("Go straight for seconds", time_entry_box.get(),speed_entry_box.get())
+    mqtt_sender.send_message("GSFS", [time_entry_box.get(), speed_entry_box.get()])
+
+def handle_go_straight_for_inches_using_time(distance_entry_box, speed_entry_box, mqtt_sender):
+    """
+    Tell the robot to go straight for specific distance using given speed
+    :param distance_entry_box:
+    :param speed_entry_box:
+    :param mqtt_sender:
+    :return:
+    """
+    print("Go straight for inches using time", distance_entry_box.get(), speed_entry_box.get())
+    mqtt_sender.send_message("GSFIUT", [distance_entry_box.get(), speed_entry_box.get()])
+
+def handle_go_straight_for_inches_using_encoder(distance_entry_box, speed_entry_box, mqtt_sender):
+    """
+    Tell the robot to go straight for specific distance using given speed, but using sensor
+    :param distance_entry_box:
+    :param speed_entry_box:
+    :param mqtt_sender:
+    :return:
+    """
+    print("Go straight for inches using endoer", distance_entry_box.get(), speed_entry_box.get())
+    mqtt_sender.send_message("GSFIUE", [distance_entry_box.get(), speed_entry_box.get()])
 
 ###############################################################################
 # Handlers for Buttons in the ArmAndClaw frame.

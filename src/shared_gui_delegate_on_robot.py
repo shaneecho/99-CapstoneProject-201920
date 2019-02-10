@@ -32,6 +32,19 @@ class Receiver(object):
         print("Turn Right", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.right(int(left_wheel_speed), int(right_wheel_speed))
 
+    def GSFS(self, time, speed):
+        print("Go straight for seconds:", time, speed)
+        self.robot.drive_system.go_straight_for_seconds(int(time), int(speed))
+
+    def GSFIUT(self, distance, speed):
+        print("Go straight for inches using time:", distance, speed)
+        self.robot.drive_system.go_straight_for_inches_using_time(int(distance), int(speed))
+
+    def GSFIUE(self, distance, speed):
+        print("Go straight for inches using encoder", distance, speed)
+        self.robot.drive_system.go_straight_for_inches_using_encoder(int(distance), int(speed))
+
+
 #####################################################
 
     def raise_arm(self):
@@ -49,3 +62,4 @@ class Receiver(object):
     def move_arm_to_position(self, position):
         print("Move to position", position)
         self.robot.arm_and_claw.move_arm_to_position(int(position))
+
