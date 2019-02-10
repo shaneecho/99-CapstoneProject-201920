@@ -17,8 +17,8 @@ def main():
       2. Communicates via MQTT with the GUI code that runs on the LAPTOP.
     """
     #real_thing()
-    run_test_go_stright_for_seconds()
-    #run_test_go_stright_for_inches_using_time()
+    #run_test_go_stright_for_seconds()
+    run_test_go_stright_for_inches_using_time()
     #run_test_go_stright_for_inches_using_encoder()
 
 
@@ -36,7 +36,7 @@ def run_test_go_stright_for_seconds():
 
 def run_test_go_stright_for_inches_using_time():
     robot=rosebot.RoseBot()
-    robot.drive_system.go_straight_for_inches_using_time()
+    robot.drive_system.go_straight_for_inches_using_time(3,50)
 
 def run_test_go_stright_for_inches_using_encoder():
     robot=rosebot.RoseBot()
