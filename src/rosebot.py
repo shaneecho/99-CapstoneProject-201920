@@ -124,7 +124,7 @@ class DriveSystem(object):
 
         self.right_motor.reset_position()
         self.left_motor.reset_position()
-        inches_per_degree = self.left_motor.WheelCircumference / 360
+        inches_per_degree = self.wheel_circumference / 360
         degrees_to_move = inches // inches_per_degree
         self.go(speed, speed)
         while True:
@@ -225,6 +225,7 @@ class ArmAndClaw(object):
         self.touch_sensor = touch_sensor
         self.motor = Motor('A', motor_type='medium')
         self.true_position = 0
+        # self.calibrate_arm()
 
     def raise_arm(self):
         """ Raises the Arm until its touch sensor is pressed. """
@@ -251,18 +252,20 @@ class ArmAndClaw(object):
         Move its Arm to the given position, where 0 means all the way DOWN.
         The robot must have previously calibrated its Arm.
         """
-        if self.true_position > desired_arm_position:
+        if self.motor.get_position() > desired_arm_position:
             self.motor.turn_on(-100)
-        elif self.true_position < desired_arm_position:
+            while True:
+                if self.motor.get_position() - desired_arm_position <= 0:
+                    self.motor.turn_off()
+                    break
+        elif self.motor.get_position() < desired_arm_position:
             self.motor.turn_on(100)
+            while True:
+                if self.motor.get_position() - desired_arm_position >= 0:
+                    self.motor.turn_off()
+                    break
         else:
             self.motor.turn_off()
-        while True:
-            if abs(self.motor.get_position() - self.true_position) <= 0:
-                self.true_position = desired_arm_position
-                self.motor.reset_position()
-                self.motor.turn_off()
-                break
 
     def lower_arm(self):
         """
@@ -270,13 +273,14 @@ class ArmAndClaw(object):
         The robot must have previously calibrated its Arm.
         """
         self.motor.turn_on(-100)
-        # while abs(self.motor.get_position()) > 0:
-        #     pass
-        while True:
-            if abs(self.motor.get_position()) == 0:
-                self.motor.turn_off()
-                self.motor.reset_position()
-                break
+        while self.motor.get_position() > 5:
+            pass
+        self.motor.turn_off()
+        # while True:
+        #     if abs(self.motor.get_position()) == 0:
+        #         self.motor.turn_off()
+        #         self.motor.reset_position()
+        #         break
 
 ###############################################################################
 #    SensorSystem
