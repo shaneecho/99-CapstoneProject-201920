@@ -74,7 +74,6 @@ def get_teleoperation_frame(window, mqtt_sender):
     stop_button["command"] = lambda: handle_stop(mqtt_sender)
     return frame
 
-
 def get_arm_frame(window, mqtt_sender):
     """
     Constructs and returns a frame on the given window, where the frame
@@ -117,7 +116,6 @@ def get_arm_frame(window, mqtt_sender):
     move_arm_button["command"] = lambda: handle_move_arm_to_position(
         position_entry, mqtt_sender)
     return frame
-
 
 def get_control_frame(window, mqtt_sender):
     """
