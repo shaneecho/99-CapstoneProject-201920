@@ -47,7 +47,7 @@ class Receiver(object):
 
 
 
-#####################################################
+#######################################################
 
     def raise_arm(self):
         print("Raise")
@@ -64,6 +64,21 @@ class Receiver(object):
     def move_arm_to_position(self, position):
         print("Move to position", position)
         self.robot.arm_and_claw.move_arm_to_position(int(position))
+
+#######################################################
+
+    def beep(self, n):
+        print("Beeping")
+        for _ in range(int(n)):
+            self.robot.sound_system.beeper.beep().wait()
+
+    def tone(self, fre, dui):
+        print("Tones")
+        self.robot.sound_system.tone_maker.play_tone(int(fre), int(dui))
+
+    def speaker(self, phs):
+        print("Speaking")
+        self.robot.sound_system.speech_maker.speak(str(phs))
 
 #######################################################
 
