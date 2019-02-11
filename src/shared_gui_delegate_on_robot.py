@@ -11,6 +11,7 @@ class Receiver(object):
     def __init__(self,robot):
         """ :type robot: rosebot.Rosebot"""
         self.robot = robot
+        self.is_time_to_stop = False
 
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("Got forward", left_wheel_speed, right_wheel_speed)
@@ -45,6 +46,7 @@ class Receiver(object):
         self.robot.drive_system.go_straight_for_inches_using_encoder(int(distance), int(speed))
 
 
+
 #####################################################
 
     def raise_arm(self):
@@ -63,3 +65,8 @@ class Receiver(object):
         print("Move to position", position)
         self.robot.arm_and_claw.move_arm_to_position(int(position))
 
+#######################################################
+
+    def quit(self):
+        print('Now quit')
+        self.is_time_to_stop = True
