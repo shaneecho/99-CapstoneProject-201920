@@ -35,11 +35,15 @@ def get_teleoperation_frame(window, mqtt_sender):
     frame_label = ttk.Label(frame, text="Teleoperation")
     left_speed_label = ttk.Label(frame, text="Left wheel speed (0 to 100)")
     right_speed_label = ttk.Label(frame, text="Right wheel speed (0 to 100)")
+    time_label = ttk.Label(frame, text="Time for running")
+    distance_label = ttk.Label(frame, text="Distance for running")
 
     left_speed_entry = ttk.Entry(frame, width=8)
     left_speed_entry.insert(0, "100")
     right_speed_entry = ttk.Entry(frame, width=8, justify=tkinter.RIGHT)
     right_speed_entry.insert(0, "100")
+    time_entry = ttk.Entry(frame, width=8)
+    distance_entry = ttk.Entry(frame, width=8)
 
 
     forward_button = ttk.Button(frame, text="Forward")
@@ -47,6 +51,9 @@ def get_teleoperation_frame(window, mqtt_sender):
     left_button = ttk.Button(frame, text="Left")
     right_button = ttk.Button(frame, text="Right")
     stop_button = ttk.Button(frame, text="Stop")
+    GSFS_button = ttk.Button(frame, text="Go straight for seconds")
+    GSFIUT_button = ttk.Button(frame, text="Go straight for inches using time")
+    GSFIUE_button = ttk.Button(frame, text="Go straight for inches using encoder")
 
     # Grid the widgets:
     frame_label.grid(row=0, column=1)
@@ -61,6 +68,14 @@ def get_teleoperation_frame(window, mqtt_sender):
     right_button.grid(row=4, column=2)
     backward_button.grid(row=5, column=1)
 
+    time_label.grid(row=6, column=0)
+    distance_label.grid(row=6, column=2)
+    time_entry.grid(row=7, column=0)
+    distance_entry.grid(row=7, column=2)
+
+    GSFS_button.grid(row=6, column=1)
+    GSFIUT_button.grid(row=7, column=1)
+    GSFIUE_button.grid(row=8, column=1)
 
     # Set the button callbacks:
     forward_button["command"] = lambda: handle_forward(
@@ -72,6 +87,9 @@ def get_teleoperation_frame(window, mqtt_sender):
     right_button["command"] = lambda: handle_right(
         left_speed_entry, right_speed_entry, mqtt_sender)
     stop_button["command"] = lambda: handle_stop(mqtt_sender)
+    GSFS_button["command"] = lambda : handle_go_straight_for_second(time_entry, right_speed_entry, mqtt_sender)
+    GSFIUT_button["command"] = lambda: handle_go_straight_for_inches_using_time(distance_entry, right_speed_entry, mqtt_sender)
+    GSFIUE_button["command"] = lambda: handle_go_straight_for_inches_using_encoder(distance_entry, right_speed_entry, mqtt_sender)
     return frame
 
 
@@ -145,84 +163,6 @@ def get_control_frame(window, mqtt_sender):
     exit_button["command"] = lambda: handle_exit(mqtt_sender)
 
     return frame
-
-def get_drive_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
-    frame.grid()
-
-    frame_label = ttk.Label(frame, text="Special Driving Operation")
-    GSFS_button = ttk.Button(frame, text="Go straight for seconds")
-    GSFIUT_button = ttk.Button(frame, text="Go straight for inches using time")
-    GSFIUE_button = ttk.Button(frame, text="Go straight for inches using encoder")
-
-    frame_label.grid(row=0, column=1)
-    GSFS_button.grid(row=2, column=2)
-    GSFIUT_button.grid(row=3, column=2)
-    GSFIUE_button.grid(row=4, column=2)
-
-    time_label = ttk.Label(frame, text="Time/Distance for running")
-    distance_label = ttk.Label(frame, text="Speed for running")
-    time_label.grid(row=1, column=0)
-    distance_label.grid(row=1, column=1)
-
-    time_entry = ttk.Entry(frame, width=8)
-    distance_entry1 = ttk.Entry(frame, width=8)
-    distance_entry2 = ttk.Entry(frame, width=8)
-    speed_entry1 = ttk.Entry(frame, width=8)
-    speed_entry2 = ttk.Entry(frame, width=8)
-    speed_entry3 = ttk.Entry(frame, width=8)
-
-    time_entry.grid(row=2, column=0)
-    speed_entry1.grid(row=2, column=1)
-    distance_entry1.grid(row=3, column=0)
-    speed_entry2.grid(row=3, column=1)
-    distance_entry2.grid(row=4, column=0)
-    speed_entry3.grid(row=4, column=1)
-
-    GSFS_button["command"] = lambda : handle_go_straight_for_second(time_entry, speed_entry1, mqtt_sender)
-    GSFIUT_button["command"] = lambda: handle_go_straight_for_inches_using_time(distance_entry1, speed_entry2, mqtt_sender)
-    GSFIUE_button["command"] = lambda: handle_go_straight_for_inches_using_encoder(distance_entry2, speed_entry3, mqtt_sender)
-    return frame
-
-def get_sound_frame(window, mqtt_sender):
-    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
-    frame.grid()
-
-    frame_label = ttk.Label(frame, text="Sound System")
-    BFS_button = ttk.Button(frame, text="Beep for seconds")
-    TWFAD_button = ttk.Button(frame, text="Tone with specific frequency and duration")
-    SFK_button = ttk.Button(frame, text="Speak specific frames")
-
-    time_label = ttk.Label(frame, text="Time")
-    frequency_label = ttk.Label(frame, text="Frequency")
-    duration_label = ttk.Label(frame, text="Duration")
-    sframe_label = ttk.Label(frame, text="Frame")
-
-    time_entry = ttk.Entry(frame, width=8)
-    frequency_entry = ttk.Entry(frame, width=8)
-    sframe_entry = ttk.Entry(frame, width=8)
-    duration_entry = ttk.Entry(frame, width=8)
-
-
-    frame_label.grid(row=0, column=1)
-    BFS_button.grid(row=1, column=0)
-    TWFAD_button.grid(row=1, column=1)
-    SFK_button.grid(row=1, column=2)
-
-    time_label.grid(row=2, column=0)
-    frequency_label.grid(row=2, column=1)
-    sframe_label.grid(row=2, column=2)
-    time_entry.grid(row=3, column=0)
-    frequency_entry.grid(row=3, column=1)
-    sframe_entry.grid(row=3, column=2)
-    duration_label.grid(row=4, column=1)
-    duration_entry.grid(row=4, column=1)
-
-    BFS_button["command"] = lambda : handle_beep_for_seconds(time_entry, mqtt_sender)
-    TWFAD_button["command"] = lambda: handle_tone_with_specific_frequency_and_duration(frequency_entry, duration_entry, mqtt_sender)
-    SFK_button["command"] = lambda: handle_speak_specific_frames(sframe_entry, mqtt_sender)
-    return frame
-
 
 ###############################################################################
 ###############################################################################
@@ -383,18 +323,3 @@ def handle_exit(mqtt_sender):
     print('exit')
     handle_quit(mqtt_sender)
     exit()
-
-###############################################################################
-# Handlers for Buttons in the Sound frame.
-###############################################################################
-def handle_beep_for_seconds(time_entry, mqtt_sender):
-    print("Beep for seconds", time_entry.get())
-    mqtt_sender.send_message('beep', [time_entry.get()])
-
-def handle_tone_with_specific_frequency_and_duration(frequency_entry, duration_entry, mqtt_sender):
-    print("Tone with specific frequency and duration", frequency_entry.get(), duration_entry.get())
-    mqtt_sender.send_message('tone', [frequency_entry.get(), duration_entry.get()])
-
-def handle_speak_specific_frames(sframe_entry, mqtt_sender):
-    print("Speak specific frames", sframe_entry.get())
-    mqtt_sender.send_message('speaker', [sframe_entry.get()])
