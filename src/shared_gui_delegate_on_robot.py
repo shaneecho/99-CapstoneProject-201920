@@ -45,9 +45,23 @@ class Receiver(object):
         print("Go straight for inches using encoder", distance, speed)
         self.robot.drive_system.go_straight_for_inches_using_encoder(int(distance), int(speed))
 
+    def stop_by_less_intensity(self, intensity, speed):
+        print("Move to less intensity", intensity, speed)
+        self.robot.drive_system.go_straight_until_intensity_is_less_than(int(intensity), int(speed))
 
+    def stop_by_more_intensity(self, intensity, speed):
+        print("Move to more intensity", intensity, speed)
+        self.robot.drive_system.go_straight_until_intensity_is_greater_than(int(intensity), int(speed))
 
-#######################################################
+    def go_until_color_is(self, color, speed):
+        print("Move to color", color, speed)
+        self.robot.drive_system.go_straight_until_color_is(int(color), int(speed))
+
+    def go_until_color_is_not(self, color, speed):
+        print("Move to not that color", color, speed)
+        self.robot.drive_system.go_straight_until_color_is_not(int(color), int(speed))
+
+    #######################################################
 
     def raise_arm(self):
         print("Raise")
@@ -64,6 +78,7 @@ class Receiver(object):
     def move_arm_to_position(self, position):
         print("Move to position", position)
         self.robot.arm_and_claw.move_arm_to_position(int(position))
+
 
 #######################################################
 
