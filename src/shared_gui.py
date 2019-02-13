@@ -275,6 +275,8 @@ def get_proximity_frame(window, mqtt_sender):
     rate_pace_label = ttk.Label(frame, text="rate of pace change")
     init_frequency_label = ttk.Label(frame, text="Initial Pace")
     rate_frequency_label = ttk.Label(frame, text="rate of frequency change")
+    init_led_pace_label = ttk.Label(frame, text="Initial LED Pace")
+    rate_led_pace_label = ttk.Label(frame, text="rate of led pace change")
 
     speed_entry = ttk.Entry(frame, width=8)
     distance_entry = ttk.Entry(frame, width=8)
@@ -282,9 +284,13 @@ def get_proximity_frame(window, mqtt_sender):
     rate_pace_entry = ttk.Entry(frame, width=8)
     init_frequency_entry = ttk.Entry(frame, width=8)
     rate_frequency_entry = ttk.Entry(frame, width=8)
+    init_led_pace_entry = ttk.Entry(frame, width=8)
+    rate_led_pace_entry = ttk.Entry(frame, width=8)
 
     MFBI_button = ttk.Button(frame, text="move forward by Ir")
-    move_with_sound_button = ttk.Button(frame, text="move with sounds")
+    beep_and_closer_button = ttk.Button(frame, text="beep and closer")
+    tone_and_closer_button = ttk.Button(frame, text="tone and closer")
+    led_and_closer_button = ttk.Button(frame, text="led and closer")
 
     frame_label.grid(row=0, column=1)
     distance_label.grid(row=1, column=0)
@@ -299,9 +305,20 @@ def get_proximity_frame(window, mqtt_sender):
     rate_frequency_label.grid(row=5, column=1)
     init_frequency_entry.grid(row=6, column=0)
     rate_frequency_entry.grid(row=6, column=1)
-    MFBI_button.grid(row=2, column=2)
-    move_with_sound_button.grid(row=4, column=2)
+    init_led_pace_label.grid(row=7, column=0)
+    rate_led_pace_label.grid(row=7, column=1)
+    init_led_pace_entry.grid(row=8, column=0)
+    rate_led_pace_entry.grid(row=8, column=1)
 
+    MFBI_button.grid(row=2, column=2)
+    beep_and_closer_button.grid(row=4, column=2)
+    tone_and_closer_button.grid(row=6, column=2)
+    led_and_closer_button.grid(row=8, column=2)
+
+    MFBI_button["command"]=lambda: handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender)
+    beep_and_closer_button["command"]=lambda:handle_beep_and_closer(distance_entry, speed_entry, init_pace_entry, rate_pace_entry, mqtt_sender)
+    tone_and_closer_button["command"]=lambda:handle_tone_and_closer(distance_entry, speed_entry, init_frequency_entry, rate_frequency_entry, mqtt_sender)
+    led_and_closer_button["command"]=lambda:handle_led_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_led_pace_entry, mqtt_sender)
     return frame
 
 def get_camera_frame(window, mqtt_sender):
@@ -532,9 +549,17 @@ def handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender):
     print("move forward by Ir", distance_entry.get(), speed_entry.get())
     mqtt_sender.send_message("move_forward_by_Ir", [distance_entry.get(), speed_entry.get()])
 
-def handle_move_with_sound(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
-    print("move with sound",distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
-    mqtt_sender.send_message("move_with_sound", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
+def handle_beep_and_closer(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, mqtt_sender):
+    print("beep and closer",distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get())
+    mqtt_sender.send_message("beep and closer", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get()])
+
+def handle_tone_and_closer(distance_entry, speed_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
+    print("tone and closer", distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
+    mqtt_sender.send_message("tone and closer", [distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
+
+def handle_led_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_of_led_pace_entry, mqtt_sender):
+    print("tone and closer", distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get())
+    mqtt_sender.send_message("tone and closer", [distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get()])
 
 ###############################################################################
 # Handlers for Buttons in the camera frame.
