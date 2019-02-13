@@ -551,15 +551,15 @@ def handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender):
 
 def handle_beep_and_closer(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, mqtt_sender):
     print("beep and closer",distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get())
-    mqtt_sender.send_message("beep and closer", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get()])
+    mqtt_sender.send_message("beep_and_closer", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get()])
 
 def handle_tone_and_closer(distance_entry, speed_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
     print("tone and closer", distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
-    mqtt_sender.send_message("tone and closer", [distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
+    mqtt_sender.send_message("tone_and_closer", [distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
 
 def handle_LED_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_of_led_pace_entry, mqtt_sender):
     print("LED and closer", distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get())
-    mqtt_sender.send_message("LED and closer", [distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get()])
+    mqtt_sender.send_message("LED_and_closer", [distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get()])
 
 ###############################################################################
 # Handlers for Buttons in the camera frame.
