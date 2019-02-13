@@ -89,6 +89,10 @@ class Receiver(object):
         print("Move forward until distance is less than", distance)
         self.robot.drive_system.go_forward_until_distance_is_less_than(int(distance), int(speed))
 
+    def move_with_sound(self, distance, speed, init_pace, rate_of_pace, init_frequency, rate_of_frequency):
+        print("Move with sound", distance, speed, init_pace, rate_of_pace, init_frequency, rate_of_frequency)
+        self.robot.drive_system.
+
 #########################Sound system##################################
 
     def beep(self, n):

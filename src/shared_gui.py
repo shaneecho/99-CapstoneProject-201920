@@ -263,6 +263,50 @@ def get_color_frame(window, mqtt_sender):
     GUCI_button["command"]=lambda:handle_go_until_color_is(intensity_color3_entry, speed3_entry, mqtt_sender)
     GUCIN_button["command"]=lambda:handle_go_until_color_is_not(intensity_color4_entry, speed4_entry, mqtt_sender)
     return frame
+
+def get_proximity_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+
+    frame_label = ttk.Label(frame, text="Proximity")
+    distance_label = ttk.Label(frame, text="distance")
+    speed_label = ttk.Label(frame, text="speed")
+    init_pace_label = ttk.Label(frame, text="Initial Pace")
+    rate_pace_label = ttk.Label(frame, text="rate of pace change")
+    init_frequency_label = ttk.Label(frame, text="Initial Pace")
+    rate_frequency_label = ttk.Label(frame, text="rate of frequency change")
+
+    speed_entry = ttk.Entry(frame, width=8)
+    distance_entry = ttk.Entry(frame, width=8)
+    init_pace_entry = ttk.Entry(frame, width=8)
+    rate_pace_entry = ttk.Entry(frame, width=8)
+    init_frequency_entry = ttk.Entry(frame, width=8)
+    rate_frequency_entry = ttk.Entry(frame, widget=8)
+
+    MFBI_button = ttk.Button(frame, text="move forward by Ir")
+    move_with_sound_button = ttk.Button(frame, text="move with sounds")
+
+    frame_label.grid(row=0, column=1)
+    distance_label.grid(row=1, column=0)
+    speed_label.grid(row=1, column=1)
+    distance_entry.grid(row=2, column=0)
+    speed_entry.grid(row=2, column=1)
+    init_pace_label.grid(row=3, column=0)
+    rate_pace_label.grid(row=3, column=1)
+    init_pace_entry.grid(row=4, column=0)
+    rate_pace_entry.grid(row=4, column=1)
+    init_frequency_label.grid(row=5, column=0)
+    rate_frequency_label.grid(row=5, column=1)
+    init_frequency_entry.grid(row=6, column=0)
+    rate_frequency_entry.grid(row=6, column=1)
+    MFBI_button.grid(row=2, column=2)
+    move_with_sound_button.grid(row=4, column=2)
+
+def get_camera_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+
+    frame_label = ttk.Label(frame, text="Camera")
+
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -456,3 +500,14 @@ def handle_go_until_color_is(color_entry, speed_entry, mqtt_sender):
 def handle_go_until_color_is_not(color_entry, speed_entry, mqtt_sender):
     print("Go until color is not", color_entry.get(), speed_entry.get())
     mqtt_sender.send_message("go_until_color_is_not", [color_entry.get(), speed_entry.get()])
+
+###############################################################################
+# Handlers for Buttons in the proximity frame.
+###############################################################################
+def handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender):
+    print("move forward by Ir", distance_entry.get(), speed_entry.get())
+    mqtt_sender.send_message("move_forward_by_Ir", [distance_entry.get(), speed_entry.get()])
+
+def move_with_sound(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
+    print("move with sound",distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
+    mqtt_sender.send_message("move_with_sound", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
