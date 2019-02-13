@@ -275,7 +275,7 @@ class DriveSystem(object):
         Prints on the Console the Blob data of the Blob that the camera sees
         (if any).
         """
-        
+
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
