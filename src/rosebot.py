@@ -247,7 +247,7 @@ class DriveSystem(object):
         else:
             self.stop()
 
-
+ 
     def beep_and_closer(self, inches, speed, ini_pace, pace_rate):
         self.go(speed, speed)
         while True:
