@@ -33,7 +33,7 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.sound_system = SoundSystem()
         self.led_system = LEDSystem()
-        self.drive_system = DriveSystem(self.sensor_system)
+        self.drive_system = DriveSystem(self.sensor_system, self.sound_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
@@ -59,13 +59,15 @@ class DriveSystem(object):
     #          (i.e., left motor goes at speed -S, right motor at speed S).
     # -------------------------------------------------------------------------
 
-    def __init__(self, sensor_system):
+    def __init__(self, sensor_system, sound_system):
         """
         Stores the given SensorSystem object.
         Constructs two Motors (for the left and right wheels).
           :type sensor_system:  SensorSystem
+          :type sound_system: SoundSystem
         """
         self.sensor_system = sensor_system
+        self.sound_system = sound_system
         self.left_motor = Motor('B')
         self.right_motor = Motor('C')
 
@@ -243,6 +245,24 @@ class DriveSystem(object):
             self.go_backward_until_distance_is_greater_than(inches + delta, speed)
         else:
             self.stop()
+
+
+    def beep_and_closer(self, inches, speed, ini_pace, pace_rate, ini_freq, freq_rate):
+        self.go(speed, speed)
+        while True:
+            distance = self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            for _ in range(int(ini_pace)):
+                # if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                #     break
+                self.sound_system.beeper.beep().wait()
+            
+            ini_pace = ini_pace + (self.sensor_system.ir_proximity_sensor.get_distance_in_inches() - distance) * pace_rate
+            # self.sound_system.tone_maker.play_tone(int(ini_freq), 100)
+            # ini_freq = ini_freq + 1/self.sensor_system.ir_proximity_sensor.get_distance_in_inches() * freq_rate
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                break
+        self.stop()
+
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared beacon sensor.
