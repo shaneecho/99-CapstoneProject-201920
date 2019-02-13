@@ -85,3 +85,6 @@ class Receiver(object):
     def quit(self):
         print('Now quit')
         self.is_time_to_stop = True
+
+    def color(self, port):
+        print()
