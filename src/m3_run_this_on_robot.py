@@ -33,7 +33,7 @@ def real_things():
 
 def test():
     robot = rosebot.RoseBot()
-    robot.drive_system.tone_and_closer(2, 50, 100, 50)
+    robot.drive_system.LED_and_closer(2, 50, 100, 50)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
