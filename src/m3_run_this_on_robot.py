@@ -17,7 +17,7 @@ def main():
       1. Makes the EV3 robot to various things.
       2. Communicates via MQTT with the GUI code that runs on the LAPTOP.
     """
-    real_things()
+    test()
 
 def real_things():
     robot = rosebot.RoseBot()
@@ -29,6 +29,10 @@ def real_things():
         time.sleep(0.01)
         if receiver.is_time_to_stop:
             break
+
+def test():
+    robot = rosebot.RoseBot()
+    robot.drive_system.go_backward_until_distance_is_greater_than(5, 50)
 
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.

@@ -206,9 +206,9 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         """
         self.go(speed, speed)
-        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
-            self.stop()
-            break
+        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= inches:
+            pass
+        self.stop()
 
     def go_backward_until_distance_is_greater_than(self, inches, speed):
         """
@@ -216,10 +216,16 @@ class DriveSystem(object):
         the given number of inches from the nearest object that it senses.
         Assumes that it senses an object when it starts.
         """
+        # self.go(-speed, -speed)
+        # while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+        #     pass
+        # self.stop()
+
         self.go(-speed, -speed)
-        while self.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= inches:
-            self.stop()
-            break
+        while True:
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() >= inches:
+                self.stop()
+                break
 
     def go_until_distance_is_within(self, delta, inches, speed):
         """
@@ -269,6 +275,7 @@ class DriveSystem(object):
         Prints on the Console the Blob data of the Blob that the camera sees
         (if any).
         """
+        
 
     def spin_clockwise_until_sees_object(self, speed, area):
         """
