@@ -201,7 +201,6 @@ def get_sound_frame(window, mqtt_sender):
     sframe_entry = ttk.Entry(frame, width=8)
     duration_entry = ttk.Entry(frame, width=8)
 
-
     frame_label.grid(row=0, column=1)
     BFS_button.grid(row=1, column=0)
     TWFAD_button.grid(row=1, column=1)
@@ -221,7 +220,49 @@ def get_sound_frame(window, mqtt_sender):
     SFK_button["command"] = lambda: handle_speak_specific_frames(sframe_entry, mqtt_sender)
     return frame
 
+def get_color_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
 
+    frame_label = ttk.Label(frame, text="Color")
+    intensity_color_label = ttk.Label(frame, text="Intensity/Color")
+    speed_label = ttk.Label(frame, text="Speed")
+
+    intensity_color1_entry = ttk.Entry(frame, width=8)
+    intensity_color2_entry = ttk.Entry(frame, width=8)
+    intensity_color3_entry = ttk.Entry(frame, width=8)
+    intensity_color4_entry = ttk.Entry(frame, width=8)
+    speed1_entry = ttk.Entry(frame, width=8)
+    speed2_entry = ttk.Entry(frame, width=8)
+    speed3_entry = ttk.Entry(frame, width=8)
+    speed4_entry = ttk.Entry(frame, width=8)
+
+    SBLI_button = ttk.Button(frame, text="stop by less intensity")
+    SBMI_button = ttk.Button(frame, text="stop by more intensity")
+    GUCI_button = ttk.Button(frame, text="go until color is")
+    GUCIN_button = ttk.Button(frame, text="go until color is not")
+
+    frame_label.grid(row=0, column=1)
+    intensity_color_label.grid(row=1, column=0)
+    speed_label.grid(row=1, column=1)
+    intensity_color1_entry.grid(row=2, column=0)
+    intensity_color2_entry.grid(row=3, column=0)
+    intensity_color3_entry.grid(row=4, column=0)
+    intensity_color4_entry.grid(row=5, column=0)
+    speed1_entry.grid(row=2, column=1)
+    speed2_entry.grid(row=3, column=1)
+    speed3_entry.grid(row=4, column=1)
+    speed4_entry.grid(row=5, column=1)
+    SBLI_button.grid(row=2, column=2)
+    SBMI_button.grid(row=3, column=2)
+    GUCI_button.grid(row=4, column=2)
+    GUCIN_button.grid(row=5, column=2)
+
+    SBLI_button["command"]=lambda:handle_stop_by_less_intensity(intensity_color1_entry, speed1_entry, mqtt_sender)
+    SBMI_button["command"]=lambda:handle_stop_by_more_intensity(intensity_color2_entry, speed2_entry, mqtt_sender)
+    GUCI_button["command"]=lambda:handle_go_until_color_is(intensity_color3_entry, speed3_entry, mqtt_sender)
+    GUCIN_button["command"]=lambda:handle_go_until_color_is_not(intensity_color4_entry, speed4_entry, mqtt_sender)
+    return frame
 ###############################################################################
 ###############################################################################
 # The following specifies, for each Button,
@@ -396,3 +437,22 @@ def handle_tone_with_specific_frequency_and_duration(frequency_entry, duration_e
 def handle_speak_specific_frames(sframe_entry, mqtt_sender):
     print("Speak specific frames", sframe_entry.get())
     mqtt_sender.send_message('speaker', [sframe_entry.get()])
+
+###############################################################################
+# Handlers for Buttons in the Color frame.
+###############################################################################
+def handle_stop_by_less_intensity(intensity_entry, speed_entry, mqtt_sender):
+    print("Stop by less intensity", intensity_entry.get(), speed_entry.get())
+    mqtt_sender.send_message('stop_by_less_intensity', [intensity_entry.get(), speed_entry.get()])
+
+def handle_stop_by_more_intensity(intensity_entry, speed_entry, mqtt_sender):
+    print("Stop by more intensity", intensity_entry.get(), speed_entry.get())
+    mqtt_sender.send_message("stop_by_more_intensity", [intensity_entry.get(), speed_entry.get()])
+
+def handle_go_until_color_is(color_entry, speed_entry, mqtt_sender):
+    print("Go until color is", color_entry.get(), speed_entry.get())
+    mqtt_sender.send_message("go_until_color_is", [color_entry.get(), speed_entry.get()])
+
+def handle_go_until_color_is_not(color_entry, speed_entry, mqtt_sender):
+    print("Go until color is not", color_entry.get(), speed_entry.get())
+    mqtt_sender.send_message("go_until_color_is_not", [color_entry.get(), speed_entry.get()])
