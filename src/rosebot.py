@@ -257,6 +257,7 @@ class DriveSystem(object):
             time.sleep(self.sensor_system.ir_proximity_sensor.get_distance_in_inches() / pace_rate)
             if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 break
+            distance = int(self.sensor_system.ir_proximity_sensor.get_distance_in_inches())
         self.stop()
 
     def tone_and_closer(self, inches, speed, ini_freq, tone_rate):
@@ -270,10 +271,10 @@ class DriveSystem(object):
             ini_freq = ini_freq + (distance - self.sensor_system.ir_proximity_sensor.get_distance_in_inches()) * tone_rate
         self.stop()
 
-    def LED_and_closer(self, inches, speed, ini_intime, ini_outime):
-        self.go(speed, speed)
-        while True:
+
             
+
+
 
 
     # -------------------------------------------------------------------------
@@ -330,9 +331,12 @@ class DriveSystem(object):
         """
         self.go(-speed,speed)
         while True:
-            if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
-                self.stop()
-                break
+            a= self.sensor_system.camera.get_biggest_blob().get_area()
+            time.sleep(0.05)
+            if self.sensor_system.camera.get_biggest_blob().get_area()<=a:
+                if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
+                   self.stop()
+                   break
 
 
 
