@@ -259,6 +259,22 @@ class DriveSystem(object):
                 break
         self.stop()
 
+    def tone_and_closer(self, inches, speed, ini_freq, tone_rate):
+        self.go(speed, speed)
+        while True:
+            distance = self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                break
+            self.sound_system.tone_maker.play_tone(ini_freq, 200)
+            time.sleep(0.05)
+            ini_freq = ini_freq + (distance - self.sensor_system.ir_proximity_sensor.get_distance_in_inches()) * tone_rate
+        self.stop()
+
+    def LED_and_closer(self, inches, speed, ini_intime, ini_outime):
+        self.go(speed, speed)
+        while True:
+            
+
 
     # -------------------------------------------------------------------------
     # Methods for driving that use the infrared beacon sensor.
