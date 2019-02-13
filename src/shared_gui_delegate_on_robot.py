@@ -110,5 +110,15 @@ class Receiver(object):
         print('Now quit')
         self.is_time_to_stop = True
 
-    def color(self, port):
-        print()
+#######################################################################
+    def data(self):
+        print('Data')
+        self.robot.drive_system.display_camera_data()
+
+    def clock(self,speed, area):
+        print('Spin clockwise')
+        self.robot.drive_system.spin_clockwise_until_sees_object(int(speed),int(area))
+    
+    def counterclock(self,speed,area):
+        print('Spin counterclockwise')
+        self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),int(area))

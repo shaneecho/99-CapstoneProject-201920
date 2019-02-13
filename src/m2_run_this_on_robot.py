@@ -47,7 +47,7 @@ def run_test_go_stright_for_inches_using_encoder():
 
 def run_test_1():
     robot=rosebot.RoseBot()
-    robot.drive_system.go_straight_until_intensity_is_greater_than(20,50)
+    robot.drive_system.spin_counterclockwise_until_sees_object(50,10000)
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
