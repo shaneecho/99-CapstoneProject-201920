@@ -12,7 +12,7 @@
   Author:  Your professors (for the framework and lower-level code)
     and Hanrui Chen, Shixin Yan, and Weizhou Liu.
   Winter term, 2018-2019.
-"""
+"""    "hello"
 
 import tkinter
 from tkinter import ttk
