@@ -344,10 +344,11 @@ class DriveSystem(object):
         """
         self.go(-speed,speed)
         while True:
-            if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
-                self.stop()
-                break
-
+            a= self.sensor_system.camera.get_biggest_blob().get_area()
+            if self.sensor_system.camera.get_biggest_blob().get_area()<=a:
+                if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
+                    self.stop()
+                    break
 
 
 ###############################################################################
