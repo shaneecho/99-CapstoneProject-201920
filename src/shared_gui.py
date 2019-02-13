@@ -281,7 +281,7 @@ def get_proximity_frame(window, mqtt_sender):
     init_pace_entry = ttk.Entry(frame, width=8)
     rate_pace_entry = ttk.Entry(frame, width=8)
     init_frequency_entry = ttk.Entry(frame, width=8)
-    rate_frequency_entry = ttk.Entry(frame, widget=8)
+    rate_frequency_entry = ttk.Entry(frame, width=8)
 
     MFBI_button = ttk.Button(frame, text="move forward by Ir")
     move_with_sound_button = ttk.Button(frame, text="move with sounds")
@@ -302,10 +302,34 @@ def get_proximity_frame(window, mqtt_sender):
     MFBI_button.grid(row=2, column=2)
     move_with_sound_button.grid(row=4, column=2)
 
+    return frame
+
 def get_camera_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
 
     frame_label = ttk.Label(frame, text="Camera")
+    speed_label = ttk.Label(frame, text="Speed")
+    speed1_entry = ttk.Entry(frame, width=8)
+    speed2_entry = ttk.Entry(frame, width=8)
+    area_label = ttk.Label(frame, text="Area")
+    area1_entry = ttk.Entry(frame, width=8)
+    area2_entry = ttk.Entry(frame, width=8)
+    clock_button = ttk.Button(frame, text="Clock")
+    counterclock_button = ttk.Button(frame, text="Counterclock")
+
+    frame_label.grid(row=0, column=1)
+    speed_label.grid(row=1, column=0)
+    area_label.grid(row=1, column=1)
+    speed1_entry.grid(row=2, column=0)
+    speed2_entry.grid(row=3, column=0)
+    area1_entry.grid(row=2, column=1)
+    area2_entry.grid(row=3, column=1)
+    clock_button.grid(row=2, column=2)
+    counterclock_button.grid(row=3, column=2)
+
+    clock_button["command"]=lambda:handle_clock(speed1_entry, area1_entry, mqtt_sender)
+    counterclock_button["command"]=lambda:handle_counterclock(speed2_entry, area2_entry, mqtt_sender)
+    return frame
 
 ###############################################################################
 ###############################################################################
@@ -508,6 +532,17 @@ def handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender):
     print("move forward by Ir", distance_entry.get(), speed_entry.get())
     mqtt_sender.send_message("move_forward_by_Ir", [distance_entry.get(), speed_entry.get()])
 
-def move_with_sound(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
+def handle_move_with_sound(distance_entry, speed_entry, init_pace_entry, rate_of_pace_entry, init_frequency_entry, rate_of_frequency_entry, mqtt_sender):
     print("move with sound",distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
     mqtt_sender.send_message("move_with_sound", [distance_entry.get(), speed_entry.get(), init_pace_entry.get(), rate_of_pace_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
+
+###############################################################################
+# Handlers for Buttons in the camera frame.
+###############################################################################
+def handle_clock(speed_entry, area_entry, mqtt_sender):
+    print("Clock", speed_entry.get(), area_entry.get())
+    mqtt_sender.send_message("clock", [speed_entry.get(), area_entry.get()])
+
+def handle_counterclock(speed_entry, area_entry, mqtt_sender):
+    print("Counterclock", speed_entry.get(), area_entry.get())
+    mqtt_sender.send_message("counterclock", [speed_entry.get(), area_entry.get()])
