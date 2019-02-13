@@ -246,17 +246,17 @@ class DriveSystem(object):
         else:
             self.stop()
 
-    def beep_and_close(self, ini, rate, speed):
+
+    def beep_and_closer(self, inches, speed, ini_pace, pace_rate):
         self.go(speed, speed)
         while True:
-            distance= self.sensor_system.ir_proximity_sensor.get_distance_in_inches()
-            if distance < 1:
-                self.stop()
+            for _ in range(int(ini_pace)):
+                if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                    break
+                self.sound_system.beeper.beep().wait()
+            time.sleep(self.sensor_system.ir_proximity_sensor.get_distance_in_inches() / pace_rate)
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 break
-            distance = int(self.sensor_system.ir_proximity_sensor.get_distance_in_inches())
-            rat = (distance / (ini * rate * 4))
-            self.sound_system.beeper.beep()
-            time.sleep(rat)
         self.stop()
 
 
