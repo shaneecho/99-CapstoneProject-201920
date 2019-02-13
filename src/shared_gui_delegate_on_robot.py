@@ -89,9 +89,17 @@ class Receiver(object):
         print("Move forward until distance is less than", distance)
         self.robot.drive_system.go_forward_until_distance_is_less_than(int(distance), int(speed))
 
-    # def move_with_sound(self, distance, speed, init_pace, rate_of_pace, init_frequency, rate_of_frequency):
-    #     print("Move with sound", distance, speed, init_pace, rate_of_pace, init_frequency, rate_of_frequency)
-    #     self.robot.drive_system.
+    def beep_and_closer(self, distance, speed, init_pace, rate_of_pace):
+        print("Beep and closer", distance, speed, init_pace, rate_of_pace)
+        self.robot.drive_system.beep_and_closer(int(distance), int(speed), int(init_pace), int(rate_of_pace))
+
+    def tone_and_closer(self, distance, speed, init_frequency, rate_of_frequency):
+        print("Tone and closer", distance, speed, init_frequency, rate_of_frequency)
+        self.robot.drive_system.tone_and_closer(int(distance), int(speed), int(init_frequency), int(rate_of_frequency))
+
+    def LED_and_closer(self, distance, speed, init_led_frequency, rate_of_led_frequency):
+        print("LED and closer", distance, speed, init_led_frequency, rate_of_led_frequency)
+        self.robot.drive_system.LED_and_closer(int(distance), int(speed), int(init_led_frequency), int(rate_of_led_frequency))
 
 #########################Sound system##################################
 
@@ -126,3 +134,4 @@ class Receiver(object):
     def counterclock(self,speed,area):
         print('Spin counterclockwise')
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),int(area))
+

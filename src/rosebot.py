@@ -33,7 +33,7 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.sound_system = SoundSystem()
         self.led_system = LEDSystem()
-        self.drive_system = DriveSystem(self.sensor_system, self.sound_system)
+        self.drive_system = DriveSystem(self.sensor_system, self.sound_system, self.led_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
@@ -59,7 +59,7 @@ class DriveSystem(object):
     #          (i.e., left motor goes at speed -S, right motor at speed S).
     # -------------------------------------------------------------------------
 
-    def __init__(self, sensor_system, sound_system):
+    def __init__(self, sensor_system, sound_system, led_system):
         """
         Stores the given SensorSystem object.
         Constructs two Motors (for the left and right wheels).
@@ -68,6 +68,7 @@ class DriveSystem(object):
         """
         self.sensor_system = sensor_system
         self.sound_system = sound_system
+        self.led_system = led_system
         self.left_motor = Motor('B')
         self.right_motor = Motor('C')
 
@@ -257,7 +258,6 @@ class DriveSystem(object):
             time.sleep(self.sensor_system.ir_proximity_sensor.get_distance_in_inches() / pace_rate)
             if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
                 break
-            distance = int(self.sensor_system.ir_proximity_sensor.get_distance_in_inches())
         self.stop()
 
     def tone_and_closer(self, inches, speed, ini_freq, tone_rate):
@@ -271,9 +271,22 @@ class DriveSystem(object):
             ini_freq = ini_freq + (distance - self.sensor_system.ir_proximity_sensor.get_distance_in_inches()) * tone_rate
         self.stop()
 
-
-            
-
+    def LED_and_closer(self, inches, speed, ini_intime, ini_outime):
+        self.go(speed, speed)
+        while True:
+            self.led_system.left_led.turn_on()
+            time.sleep(ini_intime / 500)
+            self.led_system.left_led.turn_off()
+            self.led_system.right_led.turn_on()
+            time.sleep(ini_intime / 500)
+            self.led_system.left_led.turn_on()
+            time.sleep(ini_intime / 500)
+            self.led_system.left_led.turn_off()
+            self.led_system.right_led.turn_off()
+            time.sleep(self.sensor_system.ir_proximity_sensor.get_distance_in_inches() / ini_outime)
+            if self.sensor_system.ir_proximity_sensor.get_distance_in_inches() <= inches:
+                break
+        self.stop()
 
 
 
@@ -331,12 +344,9 @@ class DriveSystem(object):
         """
         self.go(-speed,speed)
         while True:
-            a= self.sensor_system.camera.get_biggest_blob().get_area()
-            time.sleep(0.05)
-            if self.sensor_system.camera.get_biggest_blob().get_area()<=a:
-                if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
-                   self.stop()
-                   break
+            if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
+                self.stop()
+                break
 
 
 
@@ -680,7 +690,9 @@ class InfraredProximitySensor(object):
         is within its field of vision.
         """
         cm_per_inch = 2.54
-        return (48 / cm_per_inch) * self.get_distance() / 100
+        distance = (48 / cm_per_inch) * self.get_distance() / 100
+        print(distance)
+        return distance
 
 
 ###############################################################################
@@ -873,7 +885,6 @@ class Beeper(object):
         :rtype subprocess.Popen
         """
         return self._beeper.beep()
-
 
 ###############################################################################
 # ToneMaker
