@@ -333,6 +333,7 @@ def get_camera_frame(window, mqtt_sender):
     area2_entry = ttk.Entry(frame, width=8)
     clock_button = ttk.Button(frame, text="Clock")
     counterclock_button = ttk.Button(frame, text="Counterclock")
+    data_button = ttk.Button(frame, text="Data")
 
     frame_label.grid(row=0, column=1)
     speed_label.grid(row=1, column=0)
@@ -343,9 +344,11 @@ def get_camera_frame(window, mqtt_sender):
     area2_entry.grid(row=3, column=1)
     clock_button.grid(row=2, column=2)
     counterclock_button.grid(row=3, column=2)
+    data_button.grid(row=1, column=2)
 
     clock_button["command"]=lambda:handle_clock(speed1_entry, area1_entry, mqtt_sender)
     counterclock_button["command"]=lambda:handle_counterclock(speed2_entry, area2_entry, mqtt_sender)
+    data_button["command"]=lambda:handle_data(mqtt_sender)
     return frame
 
 ###############################################################################
@@ -564,6 +567,10 @@ def handle_LED_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate
 ###############################################################################
 # Handlers for Buttons in the camera frame.
 ###############################################################################
+def handle_data(mqtt_sender):
+    print("Data")
+    mqtt_sender.send_message("data")
+
 def handle_clock(speed_entry, area_entry, mqtt_sender):
     print("Clock", speed_entry.get(), area_entry.get())
     mqtt_sender.send_message("clock", [speed_entry.get(), area_entry.get()])
