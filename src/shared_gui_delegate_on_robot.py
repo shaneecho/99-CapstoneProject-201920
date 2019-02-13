@@ -58,11 +58,11 @@ class Receiver(object):
 
     def go_until_color_is(self, color, speed):
         print("Move to color", color, speed)
-        self.robot.drive_system.go_straight_until_color_is(int(color), int(speed))
+        self.robot.drive_system.go_straight_until_color_is(color, int(speed))
 
     def go_until_color_is_not(self, color, speed):
         print("Move to not that color", color, speed)
-        self.robot.drive_system.go_straight_until_color_is_not(int(color), int(speed))
+        self.robot.drive_system.go_straight_until_color_is_not(color, int(speed))
 
 ###########################Arm dynamics################################
 
