@@ -13,6 +13,7 @@ class Receiver(object):
         self.robot = robot
         self.is_time_to_stop = False
 
+######################Movement Dynamics############################
     def forward(self, left_wheel_speed, right_wheel_speed):
         print("Got forward", left_wheel_speed, right_wheel_speed)
         self.robot.drive_system.go(int(left_wheel_speed), int(right_wheel_speed))
@@ -45,6 +46,8 @@ class Receiver(object):
         print("Go straight for inches using encoder", distance, speed)
         self.robot.drive_system.go_straight_for_inches_using_encoder(int(distance), int(speed))
 
+##########################Color sensors###############################
+
     def stop_by_less_intensity(self, intensity, speed):
         print("Move to less intensity", intensity, speed)
         self.robot.drive_system.go_straight_until_intensity_is_less_than(int(intensity), int(speed))
@@ -61,7 +64,7 @@ class Receiver(object):
         print("Move to not that color", color, speed)
         self.robot.drive_system.go_straight_until_color_is_not(int(color), int(speed))
 
-    #######################################################
+###########################Arm dynamics################################
 
     def raise_arm(self):
         print("Raise")
@@ -80,7 +83,13 @@ class Receiver(object):
         self.robot.arm_and_claw.move_arm_to_position(int(position))
 
 
-#######################################################
+#########################IR sensor#####################################
+
+    def move_forward_by_Ir(self, distance, speed):
+        print("Move forward until distance is less than", distance)
+        self.robot.drive_system.go_forward_until_distance_is_less_than(int(distance), int(speed))
+
+#########################Sound system##################################
 
     def beep(self, n):
         print("Beeping")
@@ -95,7 +104,7 @@ class Receiver(object):
         print("Speaking")
         self.robot.sound_system.speech_maker.speak(str(phs))
 
-#######################################################
+#########################Quit system###################################
 
     def quit(self):
         print('Now quit')
