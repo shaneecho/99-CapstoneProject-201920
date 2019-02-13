@@ -118,7 +118,7 @@ class Receiver(object):
     def clock(self,speed, area):
         print('Spin clockwise')
         self.robot.drive_system.spin_clockwise_until_sees_object(int(speed),int(area))
-    
+
     def counterclock(self,speed,area):
         print('Spin counterclockwise')
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),int(area))
