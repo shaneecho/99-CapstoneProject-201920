@@ -318,7 +318,7 @@ def get_proximity_frame(window, mqtt_sender):
     MFBI_button["command"]=lambda: handle_move_forward_by_Ir(distance_entry, speed_entry, mqtt_sender)
     beep_and_closer_button["command"]=lambda:handle_beep_and_closer(distance_entry, speed_entry, init_pace_entry, rate_pace_entry, mqtt_sender)
     tone_and_closer_button["command"]=lambda:handle_tone_and_closer(distance_entry, speed_entry, init_frequency_entry, rate_frequency_entry, mqtt_sender)
-    led_and_closer_button["command"]=lambda:handle_led_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_led_pace_entry, mqtt_sender)
+    led_and_closer_button["command"]=lambda:handle_LED_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_led_pace_entry, mqtt_sender)
     return frame
 
 def get_camera_frame(window, mqtt_sender):
@@ -557,9 +557,9 @@ def handle_tone_and_closer(distance_entry, speed_entry, init_frequency_entry, ra
     print("tone and closer", distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get())
     mqtt_sender.send_message("tone and closer", [distance_entry.get(), speed_entry.get(), init_frequency_entry.get(), rate_of_frequency_entry.get()])
 
-def handle_led_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_of_led_pace_entry, mqtt_sender):
-    print("tone and closer", distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get())
-    mqtt_sender.send_message("tone and closer", [distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get()])
+def handle_LED_and_closer(distance_entry, speed_entry, init_led_pace_entry, rate_of_led_pace_entry, mqtt_sender):
+    print("LED and closer", distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get())
+    mqtt_sender.send_message("LED and closer", [distance_entry.get(), speed_entry.get(), init_led_pace_entry.get(), rate_of_led_pace_entry.get()])
 
 ###############################################################################
 # Handlers for Buttons in the camera frame.

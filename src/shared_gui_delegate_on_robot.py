@@ -93,9 +93,13 @@ class Receiver(object):
         print("Beep and closer", distance, speed, init_pace, rate_of_pace)
         self.robot.drive_system.beep_and_closer(int(distance), int(speed), int(init_pace), int(rate_of_pace))
 
-    def tone_and_closer(self, distance, speed, init_pace, rate_of_pace):
-        print("Tone and closer", distance, speed, init_pace, rate_of_pace)
-        self.robot.drive_system.tone_and_closer(int(distance), int(speed), int(init_pace), int(rate_of_pace))
+    def tone_and_closer(self, distance, speed, init_frequency, rate_of_frequency):
+        print("Tone and closer", distance, speed, init_frequency, rate_of_frequency)
+        self.robot.drive_system.tone_and_closer(int(distance), int(speed), int(init_frequency), int(rate_of_frequency))
+
+    def LED_and_closer(self, distance, speed, init_led_frequency, rate_of_led_frequency):
+        print("LED and closer", distance, speed, init_led_frequency, rate_of_led_frequency)
+        self.robot.drive_system.LED_and_closer(int(distance), int(speed), int(init_led_frequency), int(rate_of_led_frequency))
 
 #########################Sound system##################################
 
