@@ -273,7 +273,7 @@ def get_proximity_frame(window, mqtt_sender):
     speed_label = ttk.Label(frame, text="speed")
     init_pace_label = ttk.Label(frame, text="Initial Pace")
     rate_pace_label = ttk.Label(frame, text="rate of pace change")
-    init_frequency_label = ttk.Label(frame, text="Initial Pace")
+    init_frequency_label = ttk.Label(frame, text="Initial Frequency")
     rate_frequency_label = ttk.Label(frame, text="rate of frequency change")
     init_led_pace_label = ttk.Label(frame, text="Initial LED Pace")
     rate_led_pace_label = ttk.Label(frame, text="rate of led pace change")
