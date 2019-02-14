@@ -33,8 +33,9 @@ class RoseBot(object):
         self.sensor_system = SensorSystem()
         self.sound_system = SoundSystem()
         self.led_system = LEDSystem()
-        self.drive_system = DriveSystem(self.sensor_system, self.sound_system, self.led_system)
         self.arm_and_claw = ArmAndClaw(self.sensor_system.touch_sensor)
+        self.drive_system = DriveSystem(self.sensor_system, self.sound_system, self.led_system, self.arm_and_claw)
+
         self.beacon_system = BeaconSystem()
         self.display_system = DisplaySystem()
 
@@ -59,7 +60,7 @@ class DriveSystem(object):
     #          (i.e., left motor goes at speed -S, right motor at speed S).
     # -------------------------------------------------------------------------
 
-    def __init__(self, sensor_system, sound_system, led_system):
+    def __init__(self, sensor_system, sound_system, led_system, arm_and_claw):
         """
         Stores the given SensorSystem object.
         Constructs two Motors (for the left and right wheels).
@@ -69,6 +70,7 @@ class DriveSystem(object):
         self.sensor_system = sensor_system
         self.sound_system = sound_system
         self.led_system = led_system
+        self.arm_and_claw = arm_and_claw
         self.left_motor = Motor('B')
         self.right_motor = Motor('C')
 
@@ -138,7 +140,6 @@ class DriveSystem(object):
             if abs(self.left_motor.get_position()) >= degrees_to_move:
                 self.stop()
                 break
-
     # -------------------------------------------------------------------------
     # Methods for driving that use the color sensor.
     # -------------------------------------------------------------------------
@@ -247,7 +248,7 @@ class DriveSystem(object):
         else:
             self.stop()
 
- 
+
     def beep_and_closer(self, inches, speed, ini_pace, pace_rate):
         self.go(speed, speed)
         while True:
@@ -330,11 +331,13 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-        self.go(speed,-speed)
+        self.go(speed, -speed)
         while True:
-            if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
+            if self.sensor_system.camera.get_biggest_blob().get_area() >= area:
                 self.stop()
                 break
+        self.tone_and_closer(0, 50, 200, 20)
+        self.arm_and_claw.raise_arm()
 
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
@@ -342,13 +345,16 @@ class DriveSystem(object):
         of the trained color whose area is at least the given area.
         Requires that the user train the camera on the color of the object.
         """
-        self.go(-speed,speed)
+        self.go(-speed, speed)
         while True:
-            a= self.sensor_system.camera.get_biggest_blob().get_area()
-            if self.sensor_system.camera.get_biggest_blob().get_area()<=a:
-                if self.sensor_system.camera.get_biggest_blob().get_area()>=area:
+            a = self.sensor_system.camera.get_biggest_blob().get_area()
+            if self.sensor_system.camera.get_biggest_blob().get_area() <= a:
+                if self.sensor_system.camera.get_biggest_blob().get_area() >= area:
                     self.stop()
                     break
+        self.tone_and_closer(0, 50, 200, 20)
+        self.arm_and_claw.raise_arm()
+
 
 
 ###############################################################################

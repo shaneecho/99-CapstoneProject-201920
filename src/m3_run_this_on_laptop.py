@@ -3,7 +3,7 @@
   Displays the Graphical User Interface (GUI) and communicates with the robot.
 
   Authors:  Your professors (for the framework)
-    and Shixin Yan.
+    and Hanrui Chen.
   Winter term, 2018-2019.
 """
 
@@ -39,7 +39,7 @@ def main():
     # -------------------------------------------------------------------------
     # Sub-frames for the shared GUI that the team developed:
     # -------------------------------------------------------------------------
-    teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame = get_shared_frames(main_frame, mqtt_sender)
+    teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame = get_shared_frames(main_frame, mqtt_sender)
 
 
     # -------------------------------------------------------------------------
@@ -50,7 +50,7 @@ def main():
     # -------------------------------------------------------------------------
     # Grid the frames.
     # -------------------------------------------------------------------------
-    grid_frames(teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame)
+    grid_frames(teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame)
 
     # -------------------------------------------------------------------------
     # The event loop:
@@ -65,26 +65,21 @@ def get_shared_frames(main_frame, mqtt_sender):
     drive_frame = shared_gui.get_drive_frame(main_frame, mqtt_sender)
     sound_frame = shared_gui.get_sound_frame(main_frame, mqtt_sender)
     color_frame = shared_gui.get_color_frame(main_frame, mqtt_sender)
+    proximity_frame = shared_gui.get_proximity_frame(main_frame, mqtt_sender)
+    camera_frame = shared_gui.get_camera_frame(main_frame, mqtt_sender)
 
-    return teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame
+    return teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame
 
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame):
+def grid_frames(teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame):
     teleop_frame.grid(row=0, column=0)
     arm_frame.grid(row=1, column=0)
     control_frame.grid(row=2, column=0)
     drive_frame.grid(row=3, column=0)
     sound_frame.grid(row=4, column=0)
     color_frame.grid(row=0, column=1)
+    proximity_frame.grid(row=1, column=1)
+    camera_frame.grid(row=2, column=1)
 
-    def lower_arm(self):
-        a=self.motor.get_position()
-        self.motor.reset_position()
-        self.motor.turn_on(-100)
-        while True:
-            if abs(self.motor.get_position()+a)>=14.2*360:
-                self.motor.turn_off()
-                self.motor.reset_position()
-                break
 # -----------------------------------------------------------------------------
 # Calls  main  to start the ball rolling.
 # -----------------------------------------------------------------------------
