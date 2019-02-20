@@ -1,17 +1,7 @@
-"""
-  Capstone Project.  Code to run on a LAPTOP (NOT the robot).
-  Displays the Graphical User Interface (GUI) and communicates with the robot.
-
-  Authors:  Your professors (for the framework)
-    and Weizhou Liu.
-  Winter term, 2018-2019.
-"""
-
 import mqtt_remote_method_calls as com
 import tkinter
 from tkinter import ttk
-import shared_gui
-
+import m2.extra
 
 def main():
     """
@@ -45,7 +35,6 @@ def main():
     # -------------------------------------------------------------------------
     # Frames that are particular to my individual contributions to the project.
     # -------------------------------------------------------------------------
-    # TODO: Implement and call get_my_frames(...)
 
     # -------------------------------------------------------------------------
     # Grid the frames.
@@ -56,31 +45,3 @@ def main():
     # The event loop:
     # -------------------------------------------------------------------------
     root.mainloop()
-
-
-def get_shared_frames(main_frame, mqtt_sender):
-    teleop_frame = shared_gui.get_teleoperation_frame(main_frame, mqtt_sender)
-    arm_frame = shared_gui.get_arm_frame(main_frame, mqtt_sender)
-    control_frame = shared_gui.get_control_frame(main_frame, mqtt_sender)
-    drive_frame = shared_gui.get_drive_frame(main_frame, mqtt_sender)
-    sound_frame = shared_gui.get_sound_frame(main_frame, mqtt_sender)
-    color_frame = shared_gui.get_color_frame(main_frame, mqtt_sender)
-    proximity_frame = shared_gui.get_proximity_frame(main_frame, mqtt_sender)
-    camera_frame = shared_gui.get_camera_frame(main_frame, mqtt_sender)
-
-    return teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame
-
-def grid_frames(teleop_frame, arm_frame, control_frame, drive_frame, sound_frame, color_frame, proximity_frame, camera_frame):
-    teleop_frame.grid(row=0, column=0)
-    arm_frame.grid(row=1, column=0)
-    control_frame.grid(row=2, column=0)
-    drive_frame.grid(row=3, column=0)
-    sound_frame.grid(row=4, column=0)
-    color_frame.grid(row=0, column=1)
-    proximity_frame.grid(row=1, column=1)
-    camera_frame.grid(row=2, column=1)
-
-# -----------------------------------------------------------------------------
-# Calls  main  to start the ball rolling.
-# -----------------------------------------------------------------------------
-main()
