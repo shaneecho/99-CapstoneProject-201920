@@ -29,17 +29,71 @@ def get_my_drive_frame(window, mqtt_sender):
 
     Drive_button=ttk.Button(frame, text="I want to drink some water")
     Stop_button = ttk.Button(frame, text="I'm not thirsty now")
+    Back_button=ttk.Button(frame,text="Turn back and give me water")
 
     frame_label.grid(row=0,column=1)
     Speed_label.grid(row=3,column=0)
     Speed_entry.grid(row=4,column=0)
-    Drive_button.grid(row=2,column=2)
-    Stop_button.grid(row=4,column=2)
+    Drive_button.grid(row=3,column=2)
+    Stop_button.grid(row=5,column=2)
+    Back_button.grid(row=4,column=2)
+
 
     Drive_button["command"] = lambda: handle_drive(Speed_entry, mqtt_sender)
     Stop_button["command"]= lambda :handle_stop1(mqtt_sender)
+    Back_button["command"]=lambda: handle_back(Speed_entry,mqtt_sender)
 
     return frame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def get_teleoperation_frame(window, mqtt_sender):
@@ -609,3 +663,7 @@ def handle_drive(speed_entry,mqtt_sender):
 def handle_stop1(mqtt_sender):
     print("Oh, you don't want water")
     mqtt_sender.send_message("stop_and_ask")
+
+def handle_back(speed_entry,mqtt_sender):
+    print("Now I should turn back")
+    mqtt_sender.send_message("go_back_and_give_me_the_water",[speed_entry.get()])

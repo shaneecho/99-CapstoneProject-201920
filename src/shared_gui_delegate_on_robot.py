@@ -145,4 +145,8 @@ class Receiver(object):
         print("Stop and wait")
         m2_extra.stop_and_ask()
 
+    def go_back_and_give_me_the_water(self,speed):
+        print("Return")
+        m2_extra.go_back_and_give_me_the_water(int(speed))
+
 

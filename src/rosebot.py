@@ -335,8 +335,6 @@ class DriveSystem(object):
         while self.sensor_system.camera.get_biggest_blob().get_area() <= area:
                 pass
         self.stop()
-        self.tone_and_closer(0, 50, 200, 20)
-        self.arm_and_claw.raise_arm()
 
     def spin_counterclockwise_until_sees_object(self, speed, area):
         """
