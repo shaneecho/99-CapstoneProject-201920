@@ -6,8 +6,10 @@ def go_and_get_some_water(speed):
     robot.sound_system.speech_maker.speak("Are you thirsty now")
     while True:
         if robot.sensor_system.touch_sensor.is_pressed():
+            robot.drive_system.spin_clockwise_until_sees_object(speed,1000)
+            robot.drive_system.go_forward_until_distance_is_less_than(2,speed)
             break
-    robot.arm_and_claw.move_arm_to_position(4000)
+    robot.arm_and_claw.move_arm_to_position(3000)
 
 def stop_and_ask():
     robot=rosebot.RoseBot()
