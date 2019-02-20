@@ -147,3 +147,6 @@ class Receiver(object):
         m2_extra.stop_and_ask()
 
 #########################################################################
+    def enter_pyramid(self, speed):
+        print("I gonna enter the pyramid")
+        m1_extra.enter_pyramid(speed)

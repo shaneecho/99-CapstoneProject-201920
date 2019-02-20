@@ -41,11 +41,59 @@ def get_my_drive_frame(window, mqtt_sender):
 
     return frame
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def get_m1_frame(window, mqtt_sender):
     frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
     frame.grid()
     frame_label = ttk.Label(frame, text="Here comes the tour in Pyramid")
+    speed_label = ttk.Label(frame, text="Speed")
+    speed_entry = ttk.Entry(frame, width=8)
+    Enter_button = ttk.Button(frame, text="Enter the pyramid")
 
+    frame_label.grid(row=0, column=1)
+    speed_label.grid(row=1, column=0)
+    speed_entry.grid(row=1, column=1)
+    Enter_button.grid(row=1, column=2)
+
+    Enter_button["command"]=lambda:handle_enter(speed_entry, mqtt_sender)
+    return frame
 def get_teleoperation_frame(window, mqtt_sender):
     """
     Constructs and returns a frame on the given window, where the frame
@@ -613,3 +661,8 @@ def handle_drive(speed_entry,mqtt_sender):
 def handle_stop1(mqtt_sender):
     print("Oh, you don't want water")
     mqtt_sender.send_message("stop_and_ask")
+
+##################################################################
+def handle_enter(speed_entry, mqtt_sender):
+    print("I gonna enter the pyramid")
+    mqtt_sender.send_message("enter_pyramid", [speed_entry.get()])

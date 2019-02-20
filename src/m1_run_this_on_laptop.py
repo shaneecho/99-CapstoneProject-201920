@@ -19,16 +19,18 @@ def main1():
     root.title('CSSE120 Capstone Project, Winter 2018-19')
     main_frame = ttk.Frame(root, padding=10, borderwidth=5, relief='groove')
     main_frame.grid()
-    drive_frame = get_shared_frames1(main_frame, mqtt_sender)
-    grid_frames1(drive_frame)
+    my_drive_frame = get_shared_frames1(main_frame, mqtt_sender)
+    grid_frames1(my_drive_frame)
     root.mainloop()
 
-def get_shared_frames1(main_frame, mqtt_sender):
-    drive_frame = shared_gui.get_m1_frame(main_frame, mqtt_sender)
-    return drive_frame
 
-def grid_frames1(drive_frame):
-    drive_frame.grid(row=0, column=0)
+def get_shared_frames1(main_frame, mqtt_sender):
+    my_drive_frame = shared_gui.get_m1_frame(main_frame, mqtt_sender)
+    return my_drive_frame
+
+
+def grid_frames1(my_drive_frame):
+    my_drive_frame.grid(row=0, column=0)
 
 def main():
     """
