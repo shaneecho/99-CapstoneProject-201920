@@ -6,8 +6,8 @@ def go_and_get_some_water(speed):
     robot.sound_system.speech_maker.speak("Are you thirsty now").wait()
     while True:
         if robot.sensor_system.touch_sensor.is_pressed():
-            robot.drive_system.spin_clockwise_until_sees_object(speed,1600)
-            robot.drive_system.go_forward_until_distance_is_less_than(0.1,speed)
+            robot.drive_system.spin_clockwise_until_sees_object(speed,1200)
+            robot.drive_system.go_forward_until_distance_is_less_than(0.4,speed)
             break
     robot.arm_and_claw.move_arm_to_position(3000)
 
