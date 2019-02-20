@@ -6,6 +6,7 @@
     and Hanrui Chen, Shixin Yan, and Weizhou Liu.
   Winter term, 2018-2019.
 """
+import m2_extra
 
 class Receiver(object):
     def __init__(self,robot):
@@ -134,4 +135,14 @@ class Receiver(object):
     def counterclock(self,speed,area):
         print('Spin counterclockwise')
         self.robot.drive_system.spin_counterclockwise_until_sees_object(int(speed),int(area))
+
+
+    def go_and_get_some_water(self,speed):
+        print("Find water")
+        m2_extra.go_and_get_some_water(int(speed))
+
+    def stop_and_ask(self):
+        print("Stop and wait")
+        m2_extra.stop_and_ask()
+
 

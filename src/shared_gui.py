@@ -36,6 +36,9 @@ def get_my_drive_frame(window, mqtt_sender):
     Drive_button.grid(row=2,column=2)
     Stop_button.grid(row=4,column=2)
 
+    Drive_button["command"] = lambda: handle_drive(Speed_entry, mqtt_sender)
+    Stop_button["command"]= lambda :handle_stop1(mqtt_sender)
+
     return frame
 
 
@@ -598,3 +601,11 @@ def handle_clock(speed_entry, area_entry, mqtt_sender):
 def handle_counterclock(speed_entry, area_entry, mqtt_sender):
     print("Counterclock", speed_entry.get(), area_entry.get())
     mqtt_sender.send_message("counterclock", [speed_entry.get(), area_entry.get()])
+
+def handle_drive(speed_entry,mqtt_sender):
+    print("I will give you some water")
+    mqtt_sender.send_message("go_and_get_some_water", [speed_entry.get()])
+
+def handle_stop1(mqtt_sender):
+    print("Oh, you don't want water")
+    mqtt_sender.send_message("stop_and_ask")
