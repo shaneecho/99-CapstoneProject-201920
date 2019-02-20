@@ -7,6 +7,7 @@
   Winter term, 2018-2019.
 """
 import m2_extra
+import m1_extra
 
 class Receiver(object):
     def __init__(self,robot):
@@ -145,4 +146,4 @@ class Receiver(object):
         print("Stop and wait")
         m2_extra.stop_and_ask()
 
-
+#########################################################################

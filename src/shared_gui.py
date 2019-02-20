@@ -41,6 +41,10 @@ def get_my_drive_frame(window, mqtt_sender):
 
     return frame
 
+def get_m1_frame(window, mqtt_sender):
+    frame = ttk.Frame(window, padding=10, borderwidth=5, relief="ridge")
+    frame.grid()
+    frame_label = ttk.Label(frame, text="Here comes the tour in Pyramid")
 
 def get_teleoperation_frame(window, mqtt_sender):
     """
